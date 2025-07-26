@@ -1,6 +1,10 @@
 package com.example.shiftscedule.ui
-
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import com.example.shiftscedule.viewmodel.ShiftViewModel
+import com.example.shiftscedule.viewmodel.ShiftViewModelFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -9,13 +13,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.shiftscedule.model.ShiftDatabase
 
 @Composable
 fun ScheduleScreen(
-    onNavigateToMembers: () -> Unit,
-    viewModel: ShiftViewModel = viewModel()
+    onNavigateToMembers: () -> Unit
 ) {
+    val context = LocalContext.current
+    val db = ShiftDatabase.getDatabase(context)
+    val factory = ShiftViewModelFactory(db.shiftDao())
+
+    val viewModel = viewModel<ShiftViewModel>(
+        factory = ShiftViewModelFactory(dao)
+    )
     val schedule = viewModel.schedule
     val totalWorked = viewModel.totalWorked
     val members by viewModel.members.collectAsState(emptyList())

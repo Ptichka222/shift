@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shiftscedule.data.AppDatabase
 import com.example.shiftscedule.data.Member
+import com.example.shiftscedule.data.MemberDao
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -12,8 +13,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import com.example.shiftscedule.data.ShiftEntry
 
-class ShiftViewModel(application: Application) : AndroidViewModel(application) {
-    private val dao = AppDatabase.getDatabase(application).memberDao()
+class ShiftViewModel(application: Application, private val dao: MemberDao) : AndroidViewModel(application) {
+
 
     private val _members = MutableStateFlow<List<Member>>(emptyList())
     val members: StateFlow<List<Member>> = _members
